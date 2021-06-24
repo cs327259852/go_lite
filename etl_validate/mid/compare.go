@@ -18,6 +18,7 @@ func compare()(){
 	var dir string
 	flag.StringVar(&dir,"d","目录名","目录名")
 	flag.Parse()
+	dir = "/home/peter/testdata/ERP中间库库存对比/20210624/"
 	//对比的表名
 	var tables []string = []string{"tb_cen_account_o_storeinven","tb_cen_storenotavailableqty","tb_gos_stock_stockpreemption"}
 	//对比的表列名
@@ -54,7 +55,7 @@ func compareInner(dir string,tablename string,fields []string,compareFields []st
 	var midMissingDatas = list.New()
 	var midMoreDatas = list.New()
 	var diffDatas = list.New()
-	var fieldtitle string = "左ERP\t右中间库\t"
+	var fieldtitle string = "左ERP\t右中间库\tpk\t"
 	for _,v := range compareIndex{
 		fieldtitle += fields[v]+"\t"+fields[v]+"\t"
 	}
@@ -70,7 +71,7 @@ func compareInner(dir string,tablename string,fields []string,compareFields []st
 			vMidSplit := strings.Split(vMid, fieldSeperator)
 			vErpsplit := strings.Split(vErp, fieldSeperator)
 			if len(vMidSplit) != fieldLen || len(vErpsplit) != fieldLen{
-				fmt.Printf("数据格式错误:%v",vMid)
+				fmt.Printf("数据格式错误,table:%v,pk:%v",tablename,pk)
 				continue
 			}
 
@@ -84,7 +85,7 @@ func compareInner(dir string,tablename string,fields []string,compareFields []st
 			signErp = strings.ReplaceAll(signErp,"\n","")
 
 			if signErp != signMid{
-				var linestr string = "左ERP\t右中间库\t"
+				var linestr string = "左ERP\t右中间库\t"+pk+"\t"
 				for _,i := range compareIndex{
 					linestr += vErpsplit[i]+"\t"+vMidSplit[i]+"\t"
 				}
@@ -131,7 +132,7 @@ func load2Map(m *map[string]string,fpath string){
 	defer wgitem.Done()
 	f, err := os.Open(fpath)
 	if err != nil {
-		print("文件读取失败 退出..")
+		fmt.Printf("%v文件读取失败 退出..",fpath)
 		os.Exit(1)
 	}
 	defer f.Close()
