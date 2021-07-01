@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"strconv"
 	"strings"
 	"sync"
 )
@@ -20,22 +19,17 @@ func compare()(){
 	flag.StringVar(&dir,"d","目录名","目录名")
 	flag.Parse()
 	//对比的表名
-	var tables []string = []string{"tb_cen_account_o_storeinven","tb_cen_storenotavailableqty","tb_gos_stock_stockpreemption"}
+	var tables []string = []string{"tb_gos_stock_stockpreemption"}
 	//对比的表列名
-	var fields [][]string = [][]string{[]string{"pk", "fk", "lineid", "lastmodifytime", "createtime", "branchid", "prodid", "invbalqty", "invbalamt", "storeid", "deleteflag", "note", "version"},
-										[]string{"pk", "createtime", "lastmodifytime", "version", "branchid", "storeid", "prodid", "notavailableqty", "preassignedqty", "runningno", "note"},
-										[]string{"pk", "fk", "createtime", "lastmodifytime","version", "lineid", "branchid", "deleteflag", "note", "preemptionpreemption", "prodid", "lotno", "quantity", "rowguid", "billid", "whseid", "storeid", "billguid", "opid", "custid", "custno", "custname"}}
-	//需要对比的表列名 对比的列名才会打印出来
-	var compareFields [][]string = [][]string{[]string{"branchid","prodid","invbalqty", "invbalamt", "storeid", "deleteflag",  "version","lastmodifytime"},
-										[]string{"version", "branchid", "storeid", "prodid", "notavailableqty", "preassignedqty","lastmodifytime" },
-										[]string{"version", "branchid", "storeid", "prodid", "quantity","lastmodifytime"}}
+	var fields [][]string = [][]string{[]string{"pk", "fk", "createtime", "lastmodifytime","version", "lineid", "branchid", "deleteflag", "note", "preemptionpreemption", "prodid", "lotno", "quantity", "rowguid", "billid", "whseid", "storeid", "billguid", "opid", "custid", "custno", "custname"}}
+	//需要对比的表列名
+	var compareFields [][]string = [][]string{[]string{"version", "branchid", "storeid", "prodid", "quantity"}}
 	for idx,t := range tables{
 		wgbig.Add(1)
 		go compareInner(dir,t,fields[idx],compareFields[idx])
 	}
 	wgbig.Wait()
 	println("finished")
-
 }
 
 // 比较  erp_tb_cen_account_o_storeinven
@@ -61,7 +55,7 @@ func compareInner(dir string,tablename string,fields []string,compareFields []st
 	}
 	diffDatas.PushBack(fieldtitle)
 
-	var fieldLen = len(fields)
+	//var fieldLen = len(fields)
 	for pk,vMid := range midData{
 		var vErp = erpData[pk]
 		if vErp == ""{
@@ -70,20 +64,16 @@ func compareInner(dir string,tablename string,fields []string,compareFields []st
 		}else{
 			vMidSplit := strings.Split(vMid, fieldSeperator)
 			vErpsplit := strings.Split(vErp, fieldSeperator)
-			if len(vMidSplit) != fieldLen || len(vErpsplit) != fieldLen{
-				fmt.Printf("数据格式错误,table:%v,pk:%v",tablename,pk)
-				continue
-			}
+			//if len(vMidSplit) != fieldLen || len(vErpsplit) != fieldLen{
+			//	fmt.Printf("数据格式错误,table:%v,pk:%v",tablename,pk)
+			//	continue
+			//}
 
 			//计算数据签名（需要比较的字段拼接)
 			signMid,signErp := "",""
 			for _,v := range compareIndex{
-				if fields[v] == "lastmodifytime"{
-					//修改时间不参与签名
-					continue
-				}
-				signMid += zeroNumberHandle(vMidSplit[v]);
-				signErp += zeroNumberHandle(vMidSplit[v]);
+				signMid += vMidSplit[v]
+				signErp += vErpsplit[v]
 			}
 			signMid = strings.ReplaceAll(signMid,"\n","")
 			signErp = strings.ReplaceAll(signErp,"\n","")
@@ -115,28 +105,6 @@ func main()(){
 	compare()
 }
 
-/**
-数字小数点后如果是0 统一处理成0 而不是0.0 0.00 等等
- */
-func zeroNumberHandle(a string)(r string){
-	if !strings.Contains(a,".0"){
-		return a;
-	}
-	_,err:=strconv.ParseFloat(a,32)
-	if err != nil{
-		//不是个数字 原样返回
-		return a
-	}
-	r = a
-	for{
-		if strings.Contains(r,".0") && strings.LastIndex(r,"0") == len(r)-1{
-			r = r[0:len(r)-1]
-		}else{
-			break;
-		}
-	}
-	return r
-}
 func getCompareIndex(all *[]string,compare *[]string)(r []int){
 	r = []int{}
 	for i, value := range *all {
