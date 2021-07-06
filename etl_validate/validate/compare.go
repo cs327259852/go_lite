@@ -135,6 +135,9 @@ func zeroNumberHandle(a string)(r string){
 			break;
 		}
 	}
+	if strings.LastIndex(r,".") == len(r)-1{
+		r = r[0:len(r)-1]
+	}
 	return r
 }
 func getCompareIndex(all *[]string,compare *[]string)(r []int){
