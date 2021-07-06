@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"strconv"
 	"strings"
 	"sync"
 )
@@ -19,17 +20,22 @@ func compare()(){
 	flag.StringVar(&dir,"d","目录名","目录名")
 	flag.Parse()
 	//对比的表名
-	var tables []string = []string{"tb_gos_stock_stockpreemption"}
+	var tables []string = []string{"tb_cen_account_o_storeinven","tb_cen_storenotavailableqty","tb_gos_stock_stockpreemption"}
 	//对比的表列名
-	var fields [][]string = [][]string{[]string{"pk", "fk", "createtime", "lastmodifytime","version", "lineid", "branchid", "deleteflag", "note", "preemptionpreemption", "prodid", "lotno", "quantity", "rowguid", "billid", "whseid", "storeid", "billguid", "opid", "custid", "custno", "custname"}}
-	//需要对比的表列名
-	var compareFields [][]string = [][]string{[]string{"version", "branchid", "storeid", "prodid", "quantity"}}
+	var fields [][]string = [][]string{[]string{"pk", "fk", "lineid", "lastmodifytime", "createtime", "branchid", "prodid", "invbalqty", "invbalamt", "storeid", "deleteflag", "note", "version"},
+		[]string{"pk", "createtime", "lastmodifytime", "version", "branchid", "storeid", "prodid", "notavailableqty", "preassignedqty", "runningno", "note"},
+		[]string{"pk", "fk", "createtime", "lastmodifytime","version", "lineid", "branchid", "deleteflag", "note", "preemptionpreemption", "prodid", "lotno", "quantity", "rowguid", "billid", "whseid", "storeid", "billguid", "opid", "custid", "custno", "custname"}}
+	//需要对比的表列名 对比的列名才会打印出来
+	var compareFields [][]string = [][]string{[]string{"branchid","prodid","invbalqty", "invbalamt", "storeid", "deleteflag",  "version","lastmodifytime"},
+		[]string{"version", "branchid", "storeid", "prodid", "notavailableqty", "preassignedqty","lastmodifytime","deleteflag" },
+		[]string{"version", "branchid", "storeid", "prodid", "quantity","lastmodifytime","deleteflag"}}
 	for idx,t := range tables{
 		wgbig.Add(1)
 		go compareInner(dir,t,fields[idx],compareFields[idx])
 	}
 	wgbig.Wait()
 	println("finished")
+
 }
 
 // 比较  erp_tb_cen_account_o_storeinven
@@ -45,41 +51,45 @@ func compareInner(dir string,tablename string,fields []string,compareFields []st
 	go load2Map(&erpData,dir+"/erp_"+tablename)
 	wgitem.Wait()
 	println("数据准备完毕，开始对比。。")
-	//中间库多余 和中间库丢失数据列表
+	//本地化校验库多余 和本地化校验库丢失数据列表
 	var midMissingDatas = list.New()
 	var midMoreDatas = list.New()
 	var diffDatas = list.New()
-	var fieldtitle string = "左ERP\t右中间库\tpk\t"
+	var fieldtitle string = "pk\t"
 	for _,v := range compareIndex{
 		fieldtitle += fields[v]+"\t"+fields[v]+"\t"
 	}
 	diffDatas.PushBack(fieldtitle)
 
-	//var fieldLen = len(fields)
+	var fieldLen = len(fields)
 	for pk,vMid := range midData{
 		var vErp = erpData[pk]
 		if vErp == ""{
-			//中间库pk不在erp库中 计入中间库多余数据
+			//本地化校验库pk不在erp库中 计入本地化校验库多余数据
 			midMoreDatas.PushBack(pk)
 		}else{
 			vMidSplit := strings.Split(vMid, fieldSeperator)
 			vErpsplit := strings.Split(vErp, fieldSeperator)
-			//if len(vMidSplit) != fieldLen || len(vErpsplit) != fieldLen{
-			//	fmt.Printf("数据格式错误,table:%v,pk:%v",tablename,pk)
-			//	continue
-			//}
+			if len(vMidSplit) != fieldLen || len(vErpsplit) != fieldLen{
+				fmt.Printf("数据格式错误,table:%v,pk:%v",tablename,pk)
+				continue
+			}
 
 			//计算数据签名（需要比较的字段拼接)
 			signMid,signErp := "",""
 			for _,v := range compareIndex{
-				signMid += vMidSplit[v]
-				signErp += vErpsplit[v]
+				if fields[v] == "lastmodifytime"{
+					//修改时间不参与签名
+					continue
+				}
+				signMid += zeroNumberHandle(vMidSplit[v]);
+				signErp += zeroNumberHandle(vErpsplit[v]);
 			}
 			signMid = strings.ReplaceAll(signMid,"\n","")
 			signErp = strings.ReplaceAll(signErp,"\n","")
 
 			if signErp != signMid{
-				var linestr string = "左ERP\t右中间库\t"+pk+"\t"
+				var linestr string = pk+"\t"
 				for _,i := range compareIndex{
 					linestr += vErpsplit[i]+"\t"+vMidSplit[i]+"\t"
 				}
@@ -88,14 +98,14 @@ func compareInner(dir string,tablename string,fields []string,compareFields []st
 		}
 	}
 
-	//收集中间库丢失的数据
+	//收集本地化校验库丢失的数据
 	for pk,_ := range erpData{
 		var vMid = midData[pk]
 		if vMid == ""{
 			midMissingDatas.PushBack(pk)
 		}
 	}
-	targetFileName := fmt.Sprintf("%v#中间库",tablename)
+	targetFileName := fmt.Sprintf("%v#本地化校验库",tablename)
 	write2File(dir+"/"+targetFileName+"丢失数据.txt",midMissingDatas)
 	write2File(dir+"/"+targetFileName+"多余数据.txt",midMoreDatas)
 	write2File(dir+"/"+targetFileName+"不一致数据.txt",diffDatas)
@@ -105,6 +115,28 @@ func main()(){
 	compare()
 }
 
+/**
+数字小数点后如果是0 统一处理成0 而不是0.0 0.00 等等
+*/
+func zeroNumberHandle(a string)(r string){
+	if !strings.Contains(a,".0"){
+		return a;
+	}
+	_,err:=strconv.ParseFloat(a,32)
+	if err != nil{
+		//不是个数字 原样返回
+		return a
+	}
+	r = a
+	for{
+		if strings.Contains(r,".0") && strings.LastIndex(r,"0") == len(r)-1{
+			r = r[0:len(r)-1]
+		}else{
+			break;
+		}
+	}
+	return r
+}
 func getCompareIndex(all *[]string,compare *[]string)(r []int){
 	r = []int{}
 	for i, value := range *all {
@@ -147,7 +179,7 @@ func load2Map(m *map[string]string,fpath string){
 }
 /**
 获取第一个字段 pk
- */
+*/
 func getPk(line string)(pk string){
 	var limits []string = strings.Split(line,",")
 	return limits[0]

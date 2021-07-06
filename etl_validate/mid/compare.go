@@ -27,8 +27,8 @@ func compare()(){
 										[]string{"pk", "fk", "createtime", "lastmodifytime","version", "lineid", "branchid", "deleteflag", "note", "preemptionpreemption", "prodid", "lotno", "quantity", "rowguid", "billid", "whseid", "storeid", "billguid", "opid", "custid", "custno", "custname"}}
 	//需要对比的表列名 对比的列名才会打印出来
 	var compareFields [][]string = [][]string{[]string{"branchid","prodid","invbalqty", "invbalamt", "storeid", "deleteflag",  "version","lastmodifytime"},
-										[]string{"version", "branchid", "storeid", "prodid", "notavailableqty", "preassignedqty","lastmodifytime" },
-										[]string{"version", "branchid", "storeid", "prodid", "quantity","lastmodifytime"}}
+										[]string{"version", "branchid", "storeid", "prodid", "notavailableqty", "preassignedqty","lastmodifytime","deleteflag" },
+										[]string{"version", "branchid", "storeid", "prodid", "quantity","lastmodifytime","deleteflag",}}
 	for idx,t := range tables{
 		wgbig.Add(1)
 		go compareInner(dir,t,fields[idx],compareFields[idx])
@@ -55,7 +55,7 @@ func compareInner(dir string,tablename string,fields []string,compareFields []st
 	var midMissingDatas = list.New()
 	var midMoreDatas = list.New()
 	var diffDatas = list.New()
-	var fieldtitle string = "左ERP\t右中间库\tpk\t"
+	var fieldtitle string = "pk\t"
 	for _,v := range compareIndex{
 		fieldtitle += fields[v]+"\t"+fields[v]+"\t"
 	}
@@ -83,13 +83,13 @@ func compareInner(dir string,tablename string,fields []string,compareFields []st
 					continue
 				}
 				signMid += zeroNumberHandle(vMidSplit[v]);
-				signErp += zeroNumberHandle(vMidSplit[v]);
+				signErp += zeroNumberHandle(vErpsplit[v]);
 			}
 			signMid = strings.ReplaceAll(signMid,"\n","")
 			signErp = strings.ReplaceAll(signErp,"\n","")
 
 			if signErp != signMid{
-				var linestr string = "左ERP\t右中间库\t"+pk+"\t"
+				var linestr string = pk+"\t"
 				for _,i := range compareIndex{
 					linestr += vErpsplit[i]+"\t"+vMidSplit[i]+"\t"
 				}

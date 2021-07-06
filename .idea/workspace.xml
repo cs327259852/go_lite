@@ -3,7 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="a0a15cbe-391e-4a9f-a741-d5cc7f3d3a6e" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/etl_validate/mid/compare" beforeDir="false" afterPath="$PROJECT_DIR$/etl_validate/mid/compare" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/etl_validate/mid/compare.go" beforeDir="false" afterPath="$PROJECT_DIR$/etl_validate/mid/compare.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/etl_validate/validate/compare" beforeDir="false" afterPath="$PROJECT_DIR$/etl_validate/validate/compare" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/etl_validate/validate/compare.go" beforeDir="false" afterPath="$PROJECT_DIR$/etl_validate/validate/compare.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -53,22 +56,22 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Go Build.go build study/etl_validate/mid">
-    <configuration name="go build panic_recover.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
-      <module name="study" />
-      <working_directory value="$PROJECT_DIR$/" />
-      <kind value="FILE" />
-      <filePath value="$PROJECT_DIR$/main2/panic_recover.go" />
-      <package value="study" />
-      <directory value="$PROJECT_DIR$/" />
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="Go Build.go build study/etl_validate/validate">
     <configuration name="go build study/etl_validate/mid" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="study" />
       <working_directory value="$PROJECT_DIR$/" />
       <kind value="PACKAGE" />
       <filePath value="$PROJECT_DIR$/etl_validate/mid/compare.go" />
       <package value="study/etl_validate/mid" />
+      <directory value="$PROJECT_DIR$/" />
+      <method v="2" />
+    </configuration>
+    <configuration name="go build study/etl_validate/validate" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="study" />
+      <working_directory value="$PROJECT_DIR$/" />
+      <kind value="PACKAGE" />
+      <filePath value="$PROJECT_DIR$/etl_validate/validate/compare.go" />
+      <package value="study/etl_validate/validate" />
       <directory value="$PROJECT_DIR$/" />
       <method v="2" />
     </configuration>
@@ -101,11 +104,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Build.go build study/etl_validate/validate" />
         <item itemvalue="Go Build.go build study/etl_validate/mid" />
         <item itemvalue="Go Build.go build study/static_proxy" />
         <item itemvalue="Go Build.go build study/proxy" />
         <item itemvalue="Go Build.go build study/tcp_demo" />
-        <item itemvalue="Go Build.go build panic_recover.go" />
       </list>
     </recent_temporary>
   </component>
@@ -132,16 +135,6 @@
           <url>file://$PROJECT_DIR$/main2/panic_recover.go</url>
           <line>17</line>
           <option name="timeStamp" value="12" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/etl_validate/mid/compare.go</url>
-          <line>51</line>
-          <option name="timeStamp" value="13" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/etl_validate/mid/compare.go</url>
-          <line>52</line>
-          <option name="timeStamp" value="14" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
