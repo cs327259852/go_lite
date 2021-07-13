@@ -58,7 +58,7 @@ func compareInner(dir string, tablename string, fields []string, compareFields [
 			vMidSplit := strings.Split(vMid, fieldSeperator)
 			vErpsplit := strings.Split(vErp, fieldSeperator)
 			if len(vMidSplit) != fieldLen || len(vErpsplit) != fieldLen {
-				fmt.Printf("数据格式错误,table:%v,pk:%v", tablename, pk)
+				fmt.Printf("数据格式错误,table:%v,pk:%v,跳过...", tablename, pk)
 				continue
 			}
 
@@ -80,7 +80,11 @@ func compareInner(dir string, tablename string, fields []string, compareFields [
 			if signErp != signMid {
 				var linestr string = pk + "\t"
 				for _, i := range compareIndex {
-					linestr += vErpsplit[i] + "\t" + vMidSplit[i] + "\t"
+					m := vMidSplit[i]
+					e := vErpsplit[i]
+					m = strings.TrimSpace(strings.ReplaceAll(m, "\n", ""))
+					e = strings.TrimSpace(strings.ReplaceAll(e, "\n", ""))
+					linestr += e + "\t" + m + "\t"
 				}
 				diffDatas.PushBack(linestr)
 			}
