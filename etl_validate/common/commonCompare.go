@@ -116,6 +116,10 @@ func zeroNumberHandle(a string) (r string) {
 		//不是个数字 原样返回
 		return a
 	}
+	hasDotMinus := strings.Index(a,"-.")==0
+	if hasDotMinus{
+		a = strings.Replace(a,"-.","-0.",-1)
+	};
 	r = a
 	for {
 		if strings.LastIndex(r, "0") == len(r)-1 {
