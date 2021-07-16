@@ -54,16 +54,16 @@ func main() {
 			continue
 		}
 		a, err1 := strconv.ParseFloat(s1[prodid], 32)
+		a = if3(err1 != nil,0.0,a)
 		b, err2 := strconv.ParseFloat(s2[prodid], 32)
+		b = if3(err2 != nil,0.0,b)
 		c, err3 := strconv.ParseFloat(s3[prodid], 32)
+		c = if3(err3 != nil,0.0,c)
 		d, err4 := strconv.ParseFloat(s4[prodid], 32)
+		d = if3(err4 != nil,0.0,d)
 		ac, err5 := strconv.ParseFloat(actualStorage, 32)
-		if err1 != nil || err2 != nil || err3 != nil || err4 != nil {
-			fmt.Println("各个库存转换数字异常:%v,跳过...", prodid)
-			continue
-		}
 		if err5 != nil {
-			fmt.Println("实际库存转换数字异常:%v,跳过...", prodno)
+			fmt.Printf("实际库存转换数字异常:%v,跳过...\n", prodno)
 			continue
 		}
 		_ac := a - b - c - d
@@ -76,12 +76,18 @@ func main() {
 	common.Write2File(dir+"/库存不相等数据.txt", diffDatas)
 	fmt.Println("完成对比库存...")
 }
-
+func if3(condition bool,trueValue float64,falseValue float64)(realvalue float64){
+	if condition{
+		return trueValue
+	}else{
+		return falseValue
+	}
+}
 func initBranchStoreidMap() {
 	defer wgbig.Done()
-	branchStoreidMap["FDG"] = ""
-	branchStoreidMap["FDW"] = ""
-	branchStoreidMap["FDC"] = ""
+	branchStoreidMap["FDG"] = "CKI00000006"
+	branchStoreidMap["FDW"] = "CKI00005696"
+	branchStoreidMap["FDC"] = "CKI00005672"
 }
 
 func loadProdnoProdIdMap(m *map[string]string, fpath string) {
@@ -173,13 +179,13 @@ func loadStorage2ItemMap(m *map[string]string, fpath string) {
 				//仓库id不一样
 				continue
 			}
-			qty1, err := strconv.ParseFloat(arr[6], 32)
+			qty1, err := strconv.ParseFloat(arr[7], 32)
 			if err != nil {
-				continue
+				qty1 = 0
 			}
-			qty2, err := strconv.ParseFloat(arr[7], 32)
+			qty2, err := strconv.ParseFloat(arr[8], 32)
 			if err != nil {
-				continue
+				qty2 = 0
 			}
 			qty := fmt.Sprintf("%f", qty1+qty2)
 			prodid := arr[6]
@@ -196,7 +202,7 @@ func loadStorage2ItemMap(m *map[string]string, fpath string) {
 	}
 }
 
-func loadStorage3ItemMap(m *map[string]string, fpath string) {
+func  loadStorage3ItemMap(m *map[string]string, fpath string) {
 	defer wgbig.Done()
 	f, err := os.Open(fpath)
 	if err != nil {
@@ -227,9 +233,9 @@ func loadStorage3ItemMap(m *map[string]string, fpath string) {
 			oldqty := (*m)[branchid+"-"+prodid]
 			if oldqty != "" {
 				oldqtyf, err := strconv.ParseFloat(oldqty, 32)
-				if err != nil {
+				if err == nil {
 					qtyf, err := strconv.ParseFloat(qty, 32)
-					if err != nil {
+					if err == nil {
 						qty = fmt.Sprintf("%f", qtyf+oldqtyf)
 					} else {
 						fmt.Println("预占库存数量计算异常:%v-%v", branchid, prodid)
@@ -260,6 +266,8 @@ func loadStorage4ItemMap(m *map[string]string, fpath string) {
 	for {
 		line, err := buf.ReadString('\n')
 		if line != "" {
+			//去除行尾的换行符
+			line = strings.TrimSpace(strings.ReplaceAll(line, "\n", ""))
 			arr := strings.Split(line, ",")
 			if len(arr) < 8 {
 				continue

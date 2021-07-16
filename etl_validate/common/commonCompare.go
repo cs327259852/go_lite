@@ -99,9 +99,9 @@ func compareInner(dir string, tablename string, fields []string, compareFields [
 		}
 	}
 	targetFileName := fmt.Sprintf("%v#目标库", tablename)
-	write2File(dir+"/"+targetFileName+"丢失数据.txt", midMissingDatas)
-	write2File(dir+"/"+targetFileName+"多余数据.txt", midMoreDatas)
-	write2File(dir+"/"+targetFileName+"不一致数据.txt", diffDatas)
+	Write2File(dir+"/"+targetFileName+"丢失数据.txt", midMissingDatas)
+	Write2File(dir+"/"+targetFileName+"多余数据.txt", midMoreDatas)
+	Write2File(dir+"/"+targetFileName+"不一致数据.txt", diffDatas)
 }
 
 /**
@@ -165,6 +165,7 @@ func load2Map(m *map[string]string, fpath string) {
 	for {
 		line, err := buf.ReadString('\n')
 		if line != "" {
+			line = strings.TrimSpace(strings.ReplaceAll(line, "\n", ""))
 			(*m)[getPk(line)] = line
 		}
 		if err != nil {
