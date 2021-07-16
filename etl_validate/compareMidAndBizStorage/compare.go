@@ -6,11 +6,13 @@ import (
 	"flag"
 	"fmt"
 	"io"
+	"math"
 	"os"
 	"strconv"
 	"strings"
 	"study/etl_validate/common"
 	"sync"
+	"time"
 )
 
 var wgbig sync.WaitGroup
@@ -20,6 +22,7 @@ func main() {
 	var dir string
 	flag.StringVar(&dir, "d", "目录名", "目录名")
 	flag.Parse()
+	now := time.Now()
 	//初始化分公司仓库map
 	wgbig.Add(7)
 	initBranchStoreidMap()
@@ -50,36 +53,43 @@ func main() {
 	for prodno, actualStorage := range storageMap {
 		prodid := prodidprodnoMap[prodno]
 		if prodid == "" {
-			fmt.Println("未找到商品编码和id映射，跳过..")
+			fmt.Printf("未找到商品编码和id映射%v，跳过..\n", prodno)
 			continue
 		}
 		a, err1 := strconv.ParseFloat(s1[prodid], 32)
-		a = if3(err1 != nil,0.0,a)
+		a = if3(err1 != nil, 0.0, a)
 		b, err2 := strconv.ParseFloat(s2[prodid], 32)
-		b = if3(err2 != nil,0.0,b)
+		b = if3(err2 != nil, 0.0, b)
 		c, err3 := strconv.ParseFloat(s3[prodid], 32)
-		c = if3(err3 != nil,0.0,c)
+		c = if3(err3 != nil, 0.0, c)
 		d, err4 := strconv.ParseFloat(s4[prodid], 32)
-		d = if3(err4 != nil,0.0,d)
+		d = if3(err4 != nil, 0.0, d)
 		ac, err5 := strconv.ParseFloat(actualStorage, 32)
 		if err5 != nil {
 			fmt.Printf("实际库存转换数字异常:%v,跳过...\n", prodno)
 			continue
 		}
 		_ac := a - b - c - d
-		if ac != _ac {
+		if ac < 0 {
+			ac = 0
+		}
+		if _ac < 0 {
+			_ac = 0
+		}
+		if math.Abs(ac-_ac) >= 1 {
+			//库存差距大于等于1
 			diffDatas.PushBack(fmt.Sprintf("%v,%v,%v", prodno, _ac, ac))
 		}
 
 	}
 
 	common.Write2File(dir+"/库存不相等数据.txt", diffDatas)
-	fmt.Println("完成对比库存...")
+	fmt.Printf("完成对比，耗时:%v", time.Since(now))
 }
-func if3(condition bool,trueValue float64,falseValue float64)(realvalue float64){
-	if condition{
+func if3(condition bool, trueValue float64, falseValue float64) (realvalue float64) {
+	if condition {
 		return trueValue
-	}else{
+	} else {
 		return falseValue
 	}
 }
@@ -104,7 +114,7 @@ func loadProdnoProdIdMap(m *map[string]string, fpath string) {
 		if line != "" {
 			arr := strings.Split(line, ",")
 			if len(arr) < 4 {
-				fmt.Print("商品信息不全，跳过...")
+				fmt.Printf("商品信息不全%v，跳过...\n", arr)
 				continue
 			}
 			branchid := arr[1]
@@ -202,7 +212,7 @@ func loadStorage2ItemMap(m *map[string]string, fpath string) {
 	}
 }
 
-func  loadStorage3ItemMap(m *map[string]string, fpath string) {
+func loadStorage3ItemMap(m *map[string]string, fpath string) {
 	defer wgbig.Done()
 	f, err := os.Open(fpath)
 	if err != nil {
@@ -305,7 +315,7 @@ func loadStorageItemMap(m *map[string]string, fpath string) {
 		if line != "" {
 			arr := strings.Split(line, ",")
 			if len(arr) < 4 {
-				fmt.Println("业务库实际库存信息不全，跳过...")
+				fmt.Printf("业务库实际库存信息不全%v，跳过...\n", arr)
 				continue
 			}
 			branchid := arr[0]
