@@ -53,7 +53,7 @@ func main() {
 	for prodno, actualStorage := range storageMap {
 		prodid := prodidprodnoMap[prodno]
 		if prodid == "" {
-			fmt.Printf("未找到商品编码和id映射%v，跳过..\n", prodno)
+			//fmt.Printf("未找到商品编码和id映射%v，跳过..\n", prodno)
 			continue
 		}
 		a, err1 := strconv.ParseFloat(s1[prodid], 32)
@@ -84,7 +84,7 @@ func main() {
 	}
 
 	common.Write2File(dir+"/库存不相等数据.txt", diffDatas)
-	fmt.Printf("完成对比，耗时:%v", time.Since(now))
+	fmt.Printf("完成对比，耗时:%v\n", time.Since(now))
 }
 func if3(condition bool, trueValue float64, falseValue float64) (realvalue float64) {
 	if condition {
