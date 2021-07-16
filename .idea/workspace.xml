@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a0a15cbe-391e-4a9f-a741-d5cc7f3d3a6e" name="Default Changelist" comment="bug fix trim space">
+    <list default="true" id="a0a15cbe-391e-4a9f-a741-d5cc7f3d3a6e" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/etl_validate/compareMidAndBizStorage/compare" beforeDir="false" afterPath="$PROJECT_DIR$/etl_validate/compareMidAndBizStorage/compare" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/etl_validate/compareMidAndBizStorage/compare.go" beforeDir="false" afterPath="$PROJECT_DIR$/etl_validate/compareMidAndBizStorage/compare.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/etl_validate/mid/compare" beforeDir="false" afterPath="$PROJECT_DIR$/etl_validate/mid/compare" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/etl_validate/mid/compare.go" beforeDir="false" afterPath="$PROJECT_DIR$/etl_validate/mid/compare.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/etl_validate/validate/compare" beforeDir="false" afterPath="$PROJECT_DIR$/etl_validate/validate/compare" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/etl_validate/validate/compare.go" beforeDir="false" afterPath="$PROJECT_DIR$/etl_validate/validate/compare.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />

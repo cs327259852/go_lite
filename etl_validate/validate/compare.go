@@ -23,5 +23,5 @@ func main() {
 		[]string{"version", "branchid", "storeid", "prodid", "quantity", "lastmodifytime", "deleteflag"},
 		[]string{"branchid", "prodid", "prodno", "deleteflag", "version"}}
 	common.CommonCompare(&dir, &tables, &fields, &compareFields)
-	fmt.Printf("完成对比，耗时:%v", time.Since(now))
+	fmt.Printf("完成对比，耗时:%v\n", time.Since(now))
 }
