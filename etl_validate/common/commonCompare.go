@@ -176,14 +176,16 @@ func getCompareIndex(all *[]string, compare *[]string) (r []int) {
 	return r
 }
 
-var totalMap map[string]*map[string]string = make(map[string]*map[string]string)
+var totalMap sync.Map
 
 func load2Map(m *map[string]string, fpath string) {
 	defer wgitem.Done()
 	//优先取缓存
-	cachedMap := totalMap[fpath]
-	if cachedMap != nil {
-		m = cachedMap
+	if cachedMap, ok := totalMap.Load(fpath); ok {
+		if realMap, ok := cachedMap.(*map[string]string); ok {
+			m = realMap
+			return
+		}
 	}
 	f, err := os.Open(fpath)
 	if err != nil {
@@ -206,7 +208,7 @@ func load2Map(m *map[string]string, fpath string) {
 		}
 
 	}
-	totalMap[fpath] = m
+	totalMap.Store(fpath, m)
 }
 
 /**
