@@ -16,6 +16,11 @@ var wgitem sync.WaitGroup //定义一个同步等待的组
 var fieldSeperator = ","
 
 func CommonCompare(dir *string, sdPare *[][]string, tables *[]string, fields *[][]string, compareFields *[][]string) {
+	prefixDbnameMap := make(map[string]string)
+	prefixDbnameMap["mid_"] = "中间库"
+	prefixDbnameMap["valid_"] = "本地化校验库"
+	prefixDbnameMap["erp_"] = "ERP库"
+
 	for idx, t := range *tables {
 		for _, sdv := range *sdPare {
 			if len(sdv) < 2 {
@@ -28,7 +33,7 @@ func CommonCompare(dir *string, sdPare *[][]string, tables *[]string, fields *[]
 			dfileName := *dir + "/" + sdv[1] + t
 			if fileExists(sfileName) && fileExists(dfileName) {
 				wgbig.Add(1)
-				go compareInner(*dir, sfileName, dfileName, strings.Replace(sdv[0]+"2"+sdv[1]+"-"+t, "_", "", 2), (*fields)[idx], (*compareFields)[idx])
+				go compareInner(*dir, sfileName, dfileName, prefixDbnameMap[sdv[0]]+"到"+prefixDbnameMap[sdv[1]]+"-"+t, (*fields)[idx], (*compareFields)[idx])
 			} else {
 				fmt.Printf("对比文件不存在%v-%v，跳过..\n", sfileName, dfileName)
 			}

@@ -84,7 +84,7 @@ func main() {
 
 	}
 
-	common.Write2File(dir+"/库存比较结果.crt", diffDatas)
+	common.Write2File(dir+"/ERP计算库存和B2B库存不相等数据.crt", diffDatas)
 	fmt.Printf("完成对比，耗时:%v\n", time.Since(now))
 }
 func if3(condition bool, trueValue float64, falseValue float64) (realvalue float64) {
