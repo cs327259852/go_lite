@@ -12,6 +12,12 @@ func main() {
 	flag.StringVar(&dir, "d", "目录名", "目录名")
 	flag.Parse()
 	now := time.Now()
+	//对比的库源和目标库前缀
+	var srouceDestPair [][]string = [][]string{[]string{"erp_", "mid_"},
+		[]string{"erp_", "mid_"},
+		[]string{"erp_", "valid_"},
+	}
+
 	//对比的表名
 	var tables []string = []string{"tb_cen_account_o_storeinven", "tb_cen_storenotavailableqty", "tb_gos_stock_stockpreemption", "tb_common_productreserves", "vw_common_prod"}
 	//对比的表列名
@@ -26,6 +32,6 @@ func main() {
 		[]string{"version", "branchid", "storeid", "prodid", "quantity", "lastmodifytime", "deleteflag"},
 		[]string{"pk", "lastmodifytime", "branchid", "deleteflag", "prodid", "minlimitstock", "version", "storeid"},
 		[]string{"branchid", "prodid", "prodno", "deleteflag", "version"}}
-	common.CommonCompare(&dir, &tables, &fields, &compareFields)
+	common.CommonCompare(&dir, &srouceDestPair, &tables, &fields, &compareFields)
 	fmt.Printf("完成对比，耗时:%v\n", time.Since(now))
 }

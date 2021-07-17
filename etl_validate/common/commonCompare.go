@@ -15,32 +15,55 @@ var wgbig sync.WaitGroup  //定义一个同步等待的组
 var wgitem sync.WaitGroup //定义一个同步等待的组
 var fieldSeperator = ","
 
-func CommonCompare(dir *string, tables *[]string, fields *[][]string, compareFields *[][]string) {
+func CommonCompare(dir *string, sdPare *[][]string, tables *[]string, fields *[][]string, compareFields *[][]string) {
 	for idx, t := range *tables {
-		wgbig.Add(1)
-		go compareInner(*dir, t, (*fields)[idx], (*compareFields)[idx])
+		for _, sdv := range *sdPare {
+			if len(sdv) < 2 {
+				fmt.Printf("源目标库对比数量错误,%v,%v\n", sdv, t)
+				continue
+			}
+			//源文件
+			sfileName := *dir + "/" + sdv[0] + t
+			//目标文件
+			dfileName := *dir + "/" + sdv[1] + t
+			if fileExists(sfileName) && fileExists(dfileName) {
+				wgbig.Add(1)
+				go compareInner(*dir, sfileName, dfileName, strings.Replace(sdv[0]+"2"+sdv[1]+"-"+t, "_", "", 2), (*fields)[idx], (*compareFields)[idx])
+			} else {
+				fmt.Printf("对比文件不存在%v-%v，跳过..\n", sfileName, dfileName)
+			}
+		}
+
 	}
 	wgbig.Wait()
 	println("finished")
 
 }
 
+func fileExists(path string) bool {
+	_, err := os.Stat(path)
+	if err == nil {
+		return true
+	}
+	return false
+}
+
 // 比较
-func compareInner(dir string, tablename string, fields []string, compareFields []string) {
+func compareInner(dir string, sfileName string, dfileName string, resultname string, fields []string, compareFields []string) {
 	defer wgbig.Done()
 	wgitem.Add(2)
 	//var filename string = "tb_cen_account_o_storeinven"
-	var midData map[string]string = make(map[string]string)
-	var erpData map[string]string = make(map[string]string)
+	var destData map[string]string = make(map[string]string)
+	var sourceData map[string]string = make(map[string]string)
 	var compareIndex []int = getCompareIndex(&fields, &compareFields)
 	//文件内容加载到map
-	go load2Map(&midData, dir+"/"+tablename)
-	go load2Map(&erpData, dir+"/erp_"+tablename)
+	go load2Map(&sourceData, sfileName)
+	go load2Map(&destData, dfileName)
 	wgitem.Wait()
 	println("数据准备完毕，开始对比。。")
-	//中间库多余 和中间库丢失数据列表
-	var midMissingDatas = list.New()
-	var midMoreDatas = list.New()
+	//目标库多余 和中间库丢失数据列表
+	var destMissingDatas = list.New()
+	var destMoreDatas = list.New()
 	var diffDatas = list.New()
 	var fieldtitle string = "pk\t"
 	for _, v := range compareIndex {
@@ -49,16 +72,16 @@ func compareInner(dir string, tablename string, fields []string, compareFields [
 	diffDatas.PushBack(fieldtitle)
 
 	var fieldLen = len(fields)
-	for pk, vMid := range midData {
-		var vErp = erpData[pk]
+	for pk, vMid := range destData {
+		var vErp = sourceData[pk]
 		if vErp == "" {
-			//中间库pk不在erp库中 计入中间库多余数据
-			midMoreDatas.PushBack(pk)
+			//目标库pk不在源库中 计入目标多余数据
+			destMoreDatas.PushBack(pk)
 		} else {
 			vMidSplit := strings.Split(vMid, fieldSeperator)
 			vErpsplit := strings.Split(vErp, fieldSeperator)
 			if len(vMidSplit) != fieldLen || len(vErpsplit) != fieldLen {
-				fmt.Printf("数据格式错误,table:%v,pk:%v,跳过...", tablename, pk)
+				fmt.Printf("数据格式错误,table:%v,pk:%v,跳过...", resultname, pk)
 				continue
 			}
 
@@ -92,15 +115,15 @@ func compareInner(dir string, tablename string, fields []string, compareFields [
 	}
 
 	//收集中间库丢失的数据
-	for pk, _ := range erpData {
-		var vMid = midData[pk]
+	for pk, _ := range sourceData {
+		var vMid = destData[pk]
 		if vMid == "" {
-			midMissingDatas.PushBack(pk)
+			destMissingDatas.PushBack(pk)
 		}
 	}
-	targetFileName := fmt.Sprintf("%v#目标库", tablename)
-	Write2File(dir+"/"+targetFileName+"丢失数据.txt", midMissingDatas)
-	Write2File(dir+"/"+targetFileName+"多余数据.txt", midMoreDatas)
+	targetFileName := fmt.Sprintf("%v#", resultname)
+	Write2File(dir+"/"+targetFileName+"丢失数据.txt", destMissingDatas)
+	Write2File(dir+"/"+targetFileName+"多余数据.txt", destMoreDatas)
 	Write2File(dir+"/"+targetFileName+"不一致数据.txt", diffDatas)
 }
 
@@ -153,12 +176,19 @@ func getCompareIndex(all *[]string, compare *[]string) (r []int) {
 	return r
 }
 
+var totalMap map[string]*map[string]string = make(map[string]*map[string]string)
+
 func load2Map(m *map[string]string, fpath string) {
 	defer wgitem.Done()
+	//优先取缓存
+	cachedMap := totalMap[fpath]
+	if cachedMap != nil {
+		m = cachedMap
+	}
 	f, err := os.Open(fpath)
 	if err != nil {
-		fmt.Printf("%v文件读取失败 退出..", fpath)
-		os.Exit(1)
+		fmt.Printf("%v文件读取失败 跳过..", fpath)
+		return
 	}
 	defer f.Close()
 	buf := bufio.NewReader(f)
@@ -176,6 +206,7 @@ func load2Map(m *map[string]string, fpath string) {
 		}
 
 	}
+	totalMap[fpath] = m
 }
 
 /**

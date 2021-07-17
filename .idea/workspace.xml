@@ -3,12 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="a0a15cbe-391e-4a9f-a741-d5cc7f3d3a6e" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/etl_validate/compareMidAndBizStorage/compare" beforeDir="false" afterPath="$PROJECT_DIR$/etl_validate/compareMidAndBizStorage/compare" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/etl_validate/compareMidAndBizStorage/compare.go" beforeDir="false" afterPath="$PROJECT_DIR$/etl_validate/compareMidAndBizStorage/compare.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/etl_validate/common/commonCompare.go" beforeDir="false" afterPath="$PROJECT_DIR$/etl_validate/common/commonCompare.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/etl_validate/mid/compare" beforeDir="false" afterPath="$PROJECT_DIR$/etl_validate/mid/compare" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/etl_validate/mid/compare.go" beforeDir="false" afterPath="$PROJECT_DIR$/etl_validate/mid/compare.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/etl_validate/validate/compare" beforeDir="false" afterPath="$PROJECT_DIR$/etl_validate/validate/compare" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/etl_validate/validate/compare.go" beforeDir="false" afterPath="$PROJECT_DIR$/etl_validate/validate/compare.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/etl_validate/validate/compare" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/etl_validate/validate/compare.go" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -60,7 +59,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Go Build.go build study/etl_validate/compareMidAndBizStorage">
+  <component name="RunManager" selected="Go Build.go build study/etl_validate/mid">
     <configuration name="go build study/etl_validate/common" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="study" />
       <working_directory value="$PROJECT_DIR$/" />
@@ -108,9 +107,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Build.go build study/etl_validate/mid" />
         <item itemvalue="Go Build.go build study/etl_validate/compareMidAndBizStorage" />
         <item itemvalue="Go Build.go build study/etl_validate/common" />
-        <item itemvalue="Go Build.go build study/etl_validate/mid" />
         <item itemvalue="Go Build.go build study/etl_validate/validate" />
         <item itemvalue="Go Build.go build study/static_proxy" />
       </list>
@@ -149,16 +148,6 @@
           <url>file://$PROJECT_DIR$/etl_validate/validate/compare.go</url>
           <line>26</line>
           <option name="timeStamp" value="33" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/etl_validate/mid/compare.go</url>
-          <line>10</line>
-          <option name="timeStamp" value="41" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/etl_validate/common/commonCompare.go</url>
-          <line>122</line>
-          <option name="timeStamp" value="43" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
