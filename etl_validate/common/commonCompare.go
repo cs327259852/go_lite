@@ -122,9 +122,9 @@ func compareInner(dir string, sfileName string, dfileName string, resultname str
 		}
 	}
 	targetFileName := fmt.Sprintf("%v#", resultname)
-	Write2File(dir+"/"+targetFileName+"丢失数据.txt", destMissingDatas)
-	Write2File(dir+"/"+targetFileName+"多余数据.txt", destMoreDatas)
-	Write2File(dir+"/"+targetFileName+"不一致数据.txt", diffDatas)
+	Write2File(dir+"/"+targetFileName+"丢失数据.crt", destMissingDatas)
+	Write2File(dir+"/"+targetFileName+"多余数据.crt", destMoreDatas)
+	Write2File(dir+"/"+targetFileName+"不一致数据.crt", diffDatas)
 }
 
 /**
