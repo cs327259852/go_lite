@@ -3,11 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="a0a15cbe-391e-4a9f-a741-d5cc7f3d3a6e" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/etl_validate/common/commonCompare.go" beforeDir="false" afterPath="$PROJECT_DIR$/etl_validate/common/commonCompare.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/etl_validate/mid/compare" beforeDir="false" afterPath="$PROJECT_DIR$/etl_validate/mid/compare" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/etl_validate/mid/compare.go" beforeDir="false" afterPath="$PROJECT_DIR$/etl_validate/mid/compare.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/etl_validate/validate/compare" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/etl_validate/validate/compare.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/etl_validate/compareMidAndBizStorage/compare" beforeDir="false" afterPath="$PROJECT_DIR$/etl_validate/compareMidAndBizStorage/compare" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/etl_validate/compareMidAndBizStorage/compare.go" beforeDir="false" afterPath="$PROJECT_DIR$/etl_validate/compareMidAndBizStorage/compare.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -134,7 +131,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="添加新表比对规则" />
     <MESSAGE value="bug fix trim space" />
-    <option name="LAST_COMMIT_MESSAGE" value="bug fix trim space" />
+    <MESSAGE value="map concurrent fix bug" />
+    <option name="LAST_COMMIT_MESSAGE" value="map concurrent fix bug" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -29,23 +29,24 @@ func main() {
 
 	//库存计算的相关表
 	s1 := make(map[string]string)
+	mid := "mid_"
 	//加载1库存数
-	loadStorage1ItemMap(&s1, dir+"/tb_cen_account_o_storeinven")
+	loadStorage1ItemMap(&s1, dir+"/"+mid+"tb_cen_account_o_storeinven")
 
 	s2 := make(map[string]string)
-	loadStorage2ItemMap(&s2, dir+"/tb_cen_storenotavailableqty")
+	loadStorage2ItemMap(&s2, dir+"/"+mid+"tb_cen_storenotavailableqty")
 
 	s3 := make(map[string]string)
-	loadStorage3ItemMap(&s3, dir+"/tb_gos_stock_stockpreemption")
+	loadStorage3ItemMap(&s3, dir+"/"+mid+"tb_gos_stock_stockpreemption")
 
 	s4 := make(map[string]string)
-	loadStorage4ItemMap(&s4, dir+"/tb_common_productreserves")
+	loadStorage4ItemMap(&s4, dir+"/"+mid+"tb_common_productreserves")
 
 	storageMap := make(map[string]string)
-	loadStorageItemMap(&storageMap, dir+"/tb_merchandise_storage")
+	loadStorageItemMap(&storageMap, dir+"/b2b5_tb_merchandise_storage")
 	//加载商品编码和商品id字典
 	var prodidprodnoMap map[string]string = make(map[string]string)
-	loadProdnoProdIdMap(&prodidprodnoMap, dir+"/vw_common_prod")
+	loadProdnoProdIdMap(&prodidprodnoMap, dir+"/"+mid+"vw_common_prod")
 
 	wgbig.Wait()
 
