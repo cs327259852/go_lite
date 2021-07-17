@@ -3,8 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="a0a15cbe-391e-4a9f-a741-d5cc7f3d3a6e" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/etl_validate/compareMidAndBizStorage/compare" beforeDir="false" afterPath="$PROJECT_DIR$/etl_validate/compareMidAndBizStorage/compare" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/etl_validate/compareMidAndBizStorage/compare.go" beforeDir="false" afterPath="$PROJECT_DIR$/etl_validate/compareMidAndBizStorage/compare.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/etl_validate/common/commonCompare.go" beforeDir="false" afterPath="$PROJECT_DIR$/etl_validate/common/commonCompare.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -146,6 +145,11 @@
           <url>file://$PROJECT_DIR$/etl_validate/validate/compare.go</url>
           <line>26</line>
           <option name="timeStamp" value="33" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/etl_validate/common/commonCompare.go</url>
+          <line>118</line>
+          <option name="timeStamp" value="47" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

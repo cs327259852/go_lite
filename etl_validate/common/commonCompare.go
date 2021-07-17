@@ -176,17 +176,8 @@ func getCompareIndex(all *[]string, compare *[]string) (r []int) {
 	return r
 }
 
-var totalMap sync.Map
-
 func load2Map(m *map[string]string, fpath string) {
 	defer wgitem.Done()
-	//优先取缓存
-	if cachedMap, ok := totalMap.Load(fpath); ok {
-		if realMap, ok := cachedMap.(*map[string]string); ok {
-			m = realMap
-			return
-		}
-	}
 	f, err := os.Open(fpath)
 	if err != nil {
 		fmt.Printf("%v文件读取失败 跳过..", fpath)
@@ -208,7 +199,6 @@ func load2Map(m *map[string]string, fpath string) {
 		}
 
 	}
-	totalMap.Store(fpath, m)
 }
 
 /**
