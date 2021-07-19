@@ -33,7 +33,7 @@ func CommonCompare(dir *string, sdPare *[][]string, tables *[]string, fields *[]
 			dfileName := *dir + "/" + sdv[1] + t
 			if fileExists(sfileName) && fileExists(dfileName) {
 				wgbig.Add(1)
-				go compareInner(*dir, sfileName, dfileName, prefixDbnameMap[sdv[0]]+"到"+prefixDbnameMap[sdv[1]]+"-"+t, (*fields)[idx], (*compareFields)[idx])
+				go compareInner(*dir, sfileName, dfileName, prefixDbnameMap[sdv[0]]+"到"+prefixDbnameMap[sdv[1]]+"#"+t, (*fields)[idx], (*compareFields)[idx])
 			} else {
 				fmt.Printf("对比文件不存在%v-%v，跳过..\n", sfileName, dfileName)
 			}
