@@ -79,7 +79,7 @@ func main() {
 		}
 		if math.Abs(ac-_ac) >= 1 {
 			//库存差距大于等于1
-			diffDatas.PushBack(fmt.Sprintf("%v,%v,%v", prodno, _ac, ac))
+			diffDatas.PushBack(fmt.Sprintf("%v,%v,%v", prodid, _ac, ac))
 		}
 
 	}
