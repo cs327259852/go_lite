@@ -43,8 +43,6 @@ tb_gos_busi_specbusiproduct
 tb_gos_busi_specbusisolution
 tb_gos_busi_stockretaindet
 tb_gos_finance_payaccountsum
-tb_gos_finance_salehookbillrel
-tb_gos_finance_salehookbillsum
 tb_gos_finance_supplierpaydet
 tb_gos_finance_supplierpaysum
 tb_gos_finance_supplierreceive
@@ -55,14 +53,8 @@ tb_gos_quality_custrevcomlic
 tb_gos_quality_custreview
 tb_gos_sale_directorderlotsum
 tb_gos_sale_directordersum
-tb_gos_sale_orddet 
-tb_gos_sale_ordsum 
 tb_gos_sale_salebilldet
 tb_gos_sale_salebillsum
-tb_gos_sale_salepremiumdet
-tb_gos_sale_salepremiumsum
-tb_gos_sale_salereturnbilldet
-tb_gos_sale_salestockindet
 tb_gos_supplierproduct
 tb_gos_supplierrun
 tb_mob_cust_location

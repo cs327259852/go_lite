@@ -7,6 +7,7 @@ import (
 	"io"
 	"os"
 	"strings"
+	"study/etl_validate/common2"
 	"time"
 )
 
@@ -24,7 +25,7 @@ func main() {
 	var tables *[]string = getAllTables("/home/peter/go/src/study/etl_validate/tmpconpare/tables.txt")
 	var fields []string = []string{"pk","lastmodifytime"}
 	var compareFields []string = []string{"lastmodifytime"}
-	commonCompare(&dir, &srouceDestPair, tables, fields, compareFields)
+	common2.CommonCompare2(&dir, &srouceDestPair, tables, fields, compareFields)
 	fmt.Printf("完成对比，耗时:%v\n", time.Since(now))
 }
 

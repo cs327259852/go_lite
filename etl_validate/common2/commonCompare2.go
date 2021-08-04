@@ -1,4 +1,4 @@
-package main
+package common2
 
 import (
 	"bufio"
@@ -8,14 +8,11 @@ import (
 	"os"
 	"strconv"
 	"strings"
-	"sync"
 )
 
-var wgbig sync.WaitGroup  //定义一个同步等待的组
-var wgitem sync.WaitGroup //定义一个同步等待的组
-var fieldSeperator = ","
 
-func commonCompare(dir *string, sdPare *[][]string, tables *[]string, fields []string, compareFields []string) {
+var fieldSeperator = ","
+func CommonCompare2(dir *string, sdPare *[][]string, tables *[]string, fields []string, compareFields []string) {
 	prefixDbnameMap := make(map[string]string)
 	prefixDbnameMap["mid_"] = "中间库"
 	prefixDbnameMap["valid_"] = "本地化校验库"
@@ -127,6 +124,8 @@ func compareInner(dir string, sfileName string, dfileName string, resultname str
 		}
 	}
 	targetFileName := fmt.Sprintf("%v#", resultname)
+	sourceData = nil
+	destData = nil
 	Write2File(dir+"/"+targetFileName+"丢失数据.crt", destMissingDatas)
 	Write2File(dir+"/"+targetFileName+"多余数据.crt", destMoreDatas)
 	Write2File(dir+"/"+targetFileName+"不一致数据.crt", diffDatas)
