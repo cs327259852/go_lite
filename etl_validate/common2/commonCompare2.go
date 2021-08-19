@@ -55,12 +55,51 @@ func compareInner(dir string, sfileName string, dfileName string, resultname str
 	//defer wgbig.Done()
 	//wgitem.Add(2)
 	//var filename string = "tb_cen_account_o_storeinven"
-	var destData map[string]string = make(map[string]string)
-	var sourceData map[string]string = make(map[string]string)
+
 	var compareIndex []int = getCompareIndex(&fields, &compareFields)
-	//文件内容加载到map
-	 load2Map(&sourceData, sfileName)
-	 load2Map(&destData, dfileName)
+	base64 := judgeBase(sfileName,dfileName)
+	baseStr := strconv.FormatInt(base64, 10)
+	base ,_ := strconv.Atoi(baseStr)
+	for i := 0; i < base; i++ {
+		var destData map[string]string = make(map[string]string)
+		var sourceData map[string]string = make(map[string]string)
+		//文件内容加载到map
+		load2Map(&sourceData, sfileName,base,i)
+		load2Map(&destData, dfileName,base,i)
+		compareTwoData(compareIndex,fields,&sourceData,&destData,resultname,dir,i)
+		sourceData = nil
+		destData = nil
+	}
+
+}
+
+//根据文件大小判断需要分割的个数
+func judgeBase(s string,d string)(int64){
+	var sizePerTimes int64 = 600
+	var size1,size2 int64
+	fi,err:=os.Stat(s)
+	if err ==nil {
+		size1 = fi.Size()
+	}
+	fi,err = os.Stat(d)
+	if err ==nil {
+		size2 = fi.Size()
+	}
+	var a = size1/1024/1024/sizePerTimes
+	var b = size2/1024/1024/sizePerTimes
+	var rst int64
+	if a > b{
+		rst = a
+	}else{
+		rst = b
+	}
+	if rst <= 0 {
+		rst  = 1
+	}
+	return rst
+}
+
+func compareTwoData(compareIndex []int,fields []string,sourceData *map[string]string,destData *map[string]string,resultname string,dir string,times int){
 	//wgitem.Wait()
 	println("数据准备完毕，开始对比。。")
 	//目标库多余 和中间库丢失数据列表
@@ -71,11 +110,13 @@ func compareInner(dir string, sfileName string, dfileName string, resultname str
 	for _, v := range compareIndex {
 		fieldtitle += fields[v] + "\t" + fields[v] + "\t"
 	}
-	diffDatas.PushBack(fieldtitle)
+	if times == 0{
+		diffDatas.PushBack(fieldtitle)
+	}
 
 	var fieldLen = len(fields)
-	for pk, vMid := range destData {
-		var vErp = sourceData[pk]
+	for pk, vMid := range *destData {
+		var vErp = (*sourceData)[pk]
 		if vErp == "" {
 			//目标库pk不在源库中 计入目标多余数据
 			destMoreDatas.PushBack(pk)
@@ -117,8 +158,8 @@ func compareInner(dir string, sfileName string, dfileName string, resultname str
 	}
 
 	//收集中间库丢失的数据
-	for pk, _ := range sourceData {
-		var vMid = destData[pk]
+	for pk, _ := range *sourceData {
+		var vMid = (*destData)[pk]
 		if vMid == "" {
 			destMissingDatas.PushBack(pk)
 		}
@@ -130,7 +171,6 @@ func compareInner(dir string, sfileName string, dfileName string, resultname str
 	Write2File(dir+"/"+targetFileName+"多余数据.crt", destMoreDatas)
 	Write2File(dir+"/"+targetFileName+"不一致数据.crt", diffDatas)
 }
-
 /**
 数字小数点后如果是0 统一处理成0 而不是0.0 0.00 等等
 */
@@ -180,7 +220,7 @@ func getCompareIndex(all *[]string, compare *[]string) (r []int) {
 	return r
 }
 
-func load2Map(m *map[string]string, fpath string) {
+func load2Map(m *map[string]string, fpath string,base int,mod int) {
 	//defer wgitem.Done()
 	f, err := os.Open(fpath)
 	if err != nil {
@@ -193,7 +233,12 @@ func load2Map(m *map[string]string, fpath string) {
 		line, err := buf.ReadString('\n')
 		if line != "" {
 			line = strings.TrimSpace(strings.ReplaceAll(line, "\n", ""))
-			(*m)[getPk(line)] = line
+			pk := getPk(line)
+			pkint,e := strconv.Atoi(pk)
+			if e != nil || pkint % base != mod{
+				continue
+			}
+			(*m)[pk] = line
 		}
 		if err != nil {
 			if err == io.EOF { //读取结束，会报EOF
@@ -214,7 +259,7 @@ func getPk(line string) (pk string) {
 }
 
 func Write2File(filePath string, l *list.List) {
-	wf, error := os.OpenFile(filePath, os.O_WRONLY|os.O_TRUNC|os.O_CREATE, 0666)
+	wf, error := os.OpenFile(filePath, os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0666)
 	if error != nil {
 		fmt.Printf("写入文件异常:%v", error)
 	}
