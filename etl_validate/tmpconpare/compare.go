@@ -12,17 +12,16 @@ import (
 )
 
 func main() {
-	var dir string
+	var dir,tablefile string
 	flag.StringVar(&dir, "d", "目录名", "目录名")
+	flag.StringVar(&tablefile, "t", "表文件", "表文件")
 	flag.Parse()
 	now := time.Now()
 	//对比的库源和目标库前缀
 	var srouceDestPair [][]string = [][]string{[]string{"erp_", "mid_"},
 	}
-	//dir="/home/peter/tmp"
-
 	//对比的表名
-	var tables *[]string = getAllTables("/home/peter/go/src/study/etl_validate/tmpconpare/tables.txt")
+	var tables *[]string = getAllTables(tablefile)
 	var fields []string = []string{"pk","lastmodifytime"}
 	var compareFields []string = []string{"lastmodifytime"}
 	common2.CommonCompare2(&dir, &srouceDestPair, tables, fields, compareFields)
