@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a0a15cbe-391e-4a9f-a741-d5cc7f3d3a6e" name="Default Changelist" comment="">
+    <list default="true" id="a0a15cbe-391e-4a9f-a741-d5cc7f3d3a6e" name="Default Changelist" comment="map concurrent fix bug">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/etl_validate/common/commonCompare.go" beforeDir="false" afterPath="$PROJECT_DIR$/etl_validate/common/commonCompare.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/etl_validate/compareMidAndBizStorage/compare" beforeDir="false" afterPath="$PROJECT_DIR$/etl_validate/compareMidAndBizStorage/compare" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/etl_validate/compareMidAndBizStorage/compare.go" beforeDir="false" afterPath="$PROJECT_DIR$/etl_validate/compareMidAndBizStorage/compare.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/etl_validate/mid/compare" beforeDir="false" afterPath="$PROJECT_DIR$/etl_validate/mid/compare" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/etl_validate/common2/commonCompare2.go" beforeDir="false" afterPath="$PROJECT_DIR$/etl_validate/common2/commonCompare2.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/etl_validate/tmpconpare/compare" beforeDir="false" afterPath="$PROJECT_DIR$/etl_validate/tmpconpare/compare" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/etl_validate/tmpconpare/compare.go" beforeDir="false" afterPath="$PROJECT_DIR$/etl_validate/tmpconpare/compare.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/etl_validate/tmpconpare/tables.txt" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -34,16 +34,20 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/etl_validate/compareMidAndBizStorage" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/etl_validate/tmpconpare" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="configurable.group.editor" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/etl_validate/common2" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/etl_validate/tmpconpare" />
+      <recent name="$PROJECT_DIR$/etl_validate/common" />
+      <recent name="$PROJECT_DIR$/etl_validate" />
       <recent name="$PROJECT_DIR$/etl_validate/compareMidAndBizStorage" />
       <recent name="$PROJECT_DIR$/etl_validate/validate" />
-      <recent name="$PROJECT_DIR$/etl_validate/mid" />
-      <recent name="$PROJECT_DIR$/main2" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -58,7 +62,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Go Build.go build study/etl_validate/mid">
+  <component name="RunManager" selected="Go Build.go build study/etl_validate/tmpconpare">
     <configuration name="go build study/etl_validate/common" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="study" />
       <working_directory value="$PROJECT_DIR$/" />
@@ -86,6 +90,15 @@
       <directory value="$PROJECT_DIR$/" />
       <method v="2" />
     </configuration>
+    <configuration name="go build study/etl_validate/tmpconpare" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="study" />
+      <working_directory value="$PROJECT_DIR$/" />
+      <kind value="PACKAGE" />
+      <filePath value="$PROJECT_DIR$/etl_validate/tmpconpare/compare.go" />
+      <package value="study/etl_validate/tmpconpare" />
+      <directory value="$PROJECT_DIR$/" />
+      <method v="2" />
+    </configuration>
     <configuration name="go build study/etl_validate/validate" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="study" />
       <working_directory value="$PROJECT_DIR$/" />
@@ -95,22 +108,13 @@
       <directory value="$PROJECT_DIR$/" />
       <method v="2" />
     </configuration>
-    <configuration name="go build study/static_proxy" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
-      <module name="study" />
-      <working_directory value="$PROJECT_DIR$/" />
-      <kind value="PACKAGE" />
-      <filePath value="$PROJECT_DIR$/static_proxy/static_proxy.go" />
-      <package value="study/static_proxy" />
-      <directory value="$PROJECT_DIR$/" />
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Build.go build study/etl_validate/tmpconpare" />
         <item itemvalue="Go Build.go build study/etl_validate/mid" />
         <item itemvalue="Go Build.go build study/etl_validate/compareMidAndBizStorage" />
         <item itemvalue="Go Build.go build study/etl_validate/common" />
         <item itemvalue="Go Build.go build study/etl_validate/validate" />
-        <item itemvalue="Go Build.go build study/static_proxy" />
       </list>
     </recent_temporary>
   </component>
@@ -153,6 +157,11 @@
           <url>file://$PROJECT_DIR$/etl_validate/common/commonCompare.go</url>
           <line>123</line>
           <option name="timeStamp" value="47" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/etl_validate/common/commonCompare.go</url>
+          <line>35</line>
+          <option name="timeStamp" value="48" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
