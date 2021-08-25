@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a0a15cbe-391e-4a9f-a741-d5cc7f3d3a6e" name="Default Changelist" comment="map concurrent fix bug">
+    <list default="true" id="a0a15cbe-391e-4a9f-a741-d5cc7f3d3a6e" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/etl_validate/common2/commonCompare2.go" beforeDir="false" afterPath="$PROJECT_DIR$/etl_validate/common2/commonCompare2.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/etl_validate/tmpconpare/bigdata_tables.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/etl_validate/tmpconpare/compare" beforeDir="false" afterPath="$PROJECT_DIR$/etl_validate/tmpconpare/compare" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/etl_validate/tmpconpare/compare.go" beforeDir="false" afterPath="$PROJECT_DIR$/etl_validate/tmpconpare/compare.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/etl_validate/tmpconpare/tables.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/etl_validate/tmpconpare/noproblem_tables.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/etl_validate/tmpconpare/tables.txt" beforeDir="false" afterPath="$PROJECT_DIR$/etl_validate/tmpconpare/tables.txt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -39,15 +40,15 @@
     <property name="settings.editor.selected.configurable" value="configurable.group.editor" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/etl_validate/common2" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/etl_validate/tmpconpare" />
       <recent name="$PROJECT_DIR$/etl_validate/common" />
       <recent name="$PROJECT_DIR$/etl_validate" />
       <recent name="$PROJECT_DIR$/etl_validate/compareMidAndBizStorage" />
       <recent name="$PROJECT_DIR$/etl_validate/validate" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/etl_validate/common2" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -162,6 +163,21 @@
           <url>file://$PROJECT_DIR$/etl_validate/common/commonCompare.go</url>
           <line>35</line>
           <option name="timeStamp" value="48" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/etl_validate/common2/commonCompare2.go</url>
+          <line>60</line>
+          <option name="timeStamp" value="49" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/etl_validate/common2/commonCompare2.go</url>
+          <line>103</line>
+          <option name="timeStamp" value="50" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/etl_validate/common2/commonCompare2.go</url>
+          <line>224</line>
+          <option name="timeStamp" value="51" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
