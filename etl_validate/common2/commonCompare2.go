@@ -235,6 +235,10 @@ func load2Map(m *map[string]string, fpath string, base int, mod int) {
 		if line != "" {
 			line = strings.TrimSpace(strings.ReplaceAll(line, "\n", ""))
 			pk := getPk(line)
+			pkint,e := strconv.Atoi(pk)
+			if e != nil || pkint % base != mod{
+				continue
+			}
 			(*m)[pk] = line
 		}
 		if err != nil {

@@ -6,7 +6,7 @@ import (
 	"study/etl_validate/common"
 	"time"
 )
-
+//库存对比数据查询
 func main() {
 	var dir string
 	flag.StringVar(&dir, "d", "目录名", "目录名")
